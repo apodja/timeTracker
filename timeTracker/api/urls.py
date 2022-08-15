@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import startTime, stopTime
+from .views import action,EntriesView
 
 urlpatterns = [
-    path('start/', startTime),
-    path('stop/', stopTime),
+
+    path('action/', action),
+    path('entries/', EntriesView.as_view())
 ]
