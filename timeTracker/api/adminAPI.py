@@ -8,11 +8,10 @@ from datetime import datetime
 
 
 
-class EntriesView(APIView):
+class EntriesViewAdmin(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self,request, format=None):
-        user = request.user
         entries = Entry.objects.all()
         serializer = EntrySerializer(entries, many = True)
         print(request.query_params)

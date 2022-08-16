@@ -15,7 +15,6 @@ const Stopwatch = () => {
           send();
           setTime(0);
         }
-        
       }
       return () => clearInterval(interval);
     }, [running]);
@@ -26,7 +25,6 @@ const Stopwatch = () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                
             },
             body: JSON.stringify({'ora' : time})
          };
@@ -42,8 +40,6 @@ const Stopwatch = () => {
         <div className="buttons">
           <button className='btn btn-success' onClick={() => setRunning(true)}>Start</button>
           <button className='btn btn-danger' onClick={() => setRunning(false)}>Stop</button>
-          {/* <button onClick={() => setTime(0)}>Reset</button> */}
-          {/* <button onClick={() => send()}>Send</button> */}
         </div>
       </div>
     );

@@ -30,8 +30,9 @@ class EntriesView(APIView):
         user = request.user
         entries = Entry.objects.filter(user = user)
         serializer = EntrySerializer(entries, many = True)
-        print(request.query_params)
         return Response(serializer.data)
+
+
 
     # def get(self,request, format=None):
     #     user = request.user
