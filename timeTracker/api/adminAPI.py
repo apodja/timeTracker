@@ -9,7 +9,7 @@ from datetime import datetime
 
 
 class EntriesViewAdmin(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
 
     def get(self,request, format=None):
         entries = Entry.objects.all()

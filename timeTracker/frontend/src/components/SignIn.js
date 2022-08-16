@@ -12,6 +12,10 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CSRFToken from './CSRF';
+import { useHistory } from "react-router-dom"; 
+
+
 
 function Copyright(props) {
   return (
@@ -28,14 +32,43 @@ function Copyright(props) {
 
 const theme = createTheme();
 
+
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
+}
+
 export default function SignInSide() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    var csrf = getCookie('csrftoken');
+    console.log(csrf);
+    const url = "http://127.0.0.1:8000/account/login/";
+        const requestOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                'X-CSRFToken': csrf
+            },
+            body: JSON.stringify({'username': data.get('email'),'password': data.get('password'),})
+         };
+          fetch(url, requestOptions).then((response)=> console.log(response['success']));
+          
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
   };
 
   return (
@@ -73,6 +106,7 @@ export default function SignInSide() {
               Sign in
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <CSRFToken/>
               <TextField
                 margin="normal"
                 required

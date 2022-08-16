@@ -27,7 +27,7 @@ class EntriesView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self,request, format=None):
-        user = request.user
+        user = self.request.user
         entries = Entry.objects.filter(user = user)
         serializer = EntrySerializer(entries, many = True)
         return Response(serializer.data)

@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'api',
-    'frontend'
+    'frontend',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -132,5 +133,6 @@ CORS_ALLOW_ALL_ORIGINS=True
 REST_FRAMEWORK = {
 'DEFAULT_PERMISSION_CLASSES': (
     'rest_framework.permissions.IsAuthenticated',
+    'rest_framework.permissions.IsAdminUser',
 )
 }
