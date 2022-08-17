@@ -9,6 +9,8 @@ import {
 import Dashboard from './Dashboard';
 import SignInSide from './SignIn';
 import Register from './Register'
+import Login from './Login';
+
 
 
 export default class App extends Component {
@@ -24,7 +26,7 @@ export default class App extends Component {
       <Routes>
           <Route exact path="/" element={<Stopwatch/>}/>
           <Route exact path="/dashboard" element={<Dashboard/>}/>
-          <Route exact path="/login" element={<SignInSide/>}/>
+          <Route exact path="/login" element={<Login/>}/>
           <Route exact path="/register" element={<Register/>}/>
         </Routes>
       </Router>

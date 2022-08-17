@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+import { useState,useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,9 +15,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CSRFToken from './CSRF';
 import Copyright from './Copyright';
-import { useHistory } from "react-router-dom"; 
-
-
+import { Redirect } from 'react-router-dom';
 
 
 
@@ -39,6 +38,8 @@ function getCookie(name) {
 }
 
 export default function SignInSide() {
+  
+
   const  handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -52,18 +53,37 @@ export default function SignInSide() {
             },
             body: JSON.stringify({'username': data.get('email'),'password': data.get('password'),})
          };
-          fetch(url, requestOptions).then((response) => {
-              const json = response.json();
-              Object.entries(json).forEach(({key,value}) => {
-                console.log(`${key} : ${value}`);
-              });
-              // console.log(json);
-          }
-        );
+           fetch(url, requestOptions).then((response)  => response.json()
+           ).then((data) => {
+            if(data.success === true){window.location.href = '/dashboard'}
+            else {
+              alert('invalid credentials');
+            }
+         
+        });
           
   };
 
-  return (
+  const [auth ,setAuth] = useState(false);
+  useEffect(() => {
+    
+    const url = "http://127.0.0.1:8000/account/login-check/";
+    const requestOptions = {
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json",
+      },
+    };
+    fetch(url, requestOptions).then((response)=> response.json())
+    .then((data) => {
+      if(data.isAuthenticated === 'success'){setAuth(true)}
+      });
+    });
+  
+  
+
+return (
+
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
