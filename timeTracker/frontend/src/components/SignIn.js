@@ -13,22 +13,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CSRFToken from './CSRF';
+import Copyright from './Copyright';
 import { useHistory } from "react-router-dom"; 
 
 
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 const theme = createTheme();
 
@@ -49,11 +39,10 @@ function getCookie(name) {
 }
 
 export default function SignInSide() {
-  const handleSubmit = (event) => {
+  const  handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     var csrf = getCookie('csrftoken');
-    console.log(csrf);
     const url = "http://127.0.0.1:8000/account/login/";
         const requestOptions = {
             method: "POST",
@@ -63,12 +52,15 @@ export default function SignInSide() {
             },
             body: JSON.stringify({'username': data.get('email'),'password': data.get('password'),})
          };
-          fetch(url, requestOptions).then((response)=> console.log(response['success']));
+          fetch(url, requestOptions).then((response) => {
+              const json = response.json();
+              Object.entries(json).forEach(({key,value}) => {
+                console.log(`${key} : ${value}`);
+              });
+              // console.log(json);
+          }
+        );
           
-    // console.log({
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    // });
   };
 
   return (
