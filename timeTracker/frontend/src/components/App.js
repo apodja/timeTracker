@@ -7,8 +7,9 @@ import {
   Route,
 } from "react-router-dom";
 
-import HomeRoutes from './HomeRoutes';
-import AuthRoutes from './AuthRoutes';
+import Dashboard from './Dashboard';
+import Navbar from './layout/Navbar';
+import Header from './layout/Header';
 
 
 
@@ -20,18 +21,22 @@ export default class App extends Component {
 
   render() {
     return (<div>
-      <Router>
-          <Fragment>
-          
-          <Routes>
-            <Route exact path="/a" element={<AuthRoutes/>}/>
-            <Route exact path="/acc" element={<HomeRoutes/>}/>
-                  
-          </Routes>
-          
-          </Fragment>
-      </Router>
-    </div>
+              <Router>
+                <Fragment>
+                  <Navbar/>
+
+                  <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+                    <Header />
+                    <div className="container">
+                      <Routes>
+                        <Route exact path="/clock" element={<Stopwatch/>}/>
+                        <Route exact path="/dashboard" element={<Dashboard/>}/>
+                      </Routes>
+                    </div>
+                  </main>
+                </Fragment>
+              </Router>
+            </div>
        
     
     );
