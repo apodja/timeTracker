@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/material-dashboard.min.css' %}"/>
+   
+</head>
+<body>
+    
+    
+
+    <div class="container">
+        <div class="row justify-content-center align-items-center mt-6">
+            <div class="col-md-4 text-center">
+                <a id="ora" href="#"><img  src="{% static 'img/timer.gif' %}"/></a>
+                <h1 id="basicUsage" class="text-center mt-2">00:00:00</h1>
+            </div>
+        </div>
+    </div>  
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{% static 'js/easytimer.min.js' %}"></script>
+    <script>
+
+        var timerInstance = new easytimer.Timer();
+        
+        var toggle = document.getElementById('ora');
+        
+        toggle.addEventListener('click', function(e){
+            e.preventDefault();
+            var secs = timerInstance.getTimeValues().seconds;
+            if(secs>0){
+                timerInstance.stop();
+                {% comment %} timerInstance.reset(); {% endcomment %}
+            }
+            else{
+                timerInstance.start();
+            }
+            
+        });
+        timerInstance.addEventListener('secondsUpdated', function (e) {
+            $('#basicUsage').html(timerInstance.getTimeValues().toString());
+        });
+
+    </script>
+</body>
+</html>
