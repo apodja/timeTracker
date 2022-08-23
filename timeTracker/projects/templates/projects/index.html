@@ -2,75 +2,70 @@
 {% load static %}
 
 {% block content %}
-<div class="container-fluid py-4">
-
-
-    <div class="row mb-4">
-      <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
-        <div class="card">
-          <div class="card-header pb-0">
-            <div class="row">
-              <div class="col-lg-6 col-7">
-                <h6>Projects</h6>
-                <p class="text-sm mb-0">
-                  <i class="fa fa-check text-info" aria-hidden="true"></i>
-                  <span class="font-weight-bold ms-1">30 done</span> this month
-                </p>
-              </div>
-             
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+              <h6 class="text-white text-capitalize ps-3">Projects </h6>
             </div>
           </div>
           <div class="card-body px-0 pb-2">
-            <div class="table-responsive">
+            <div class="table-responsive p-0">
               <table class="table align-items-center mb-0">
                 <thead>
                   <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Total Time</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Tasks</th>
-                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Title</th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Total Tasks</th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Total Time</th>
+                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Actions</th>
+
                   </tr>
                 </thead>
                 <tbody>
+                  {% if projects %}
+                  {% for project in projects  %}
                   <tr>
                     <td>
                       <div class="d-flex px-2 py-1">
-   
                         <div class="d-flex flex-column justify-content-center">
-                          <h6 class="mb-0 text-sm">Material XD Version</h6>
+                          <h6 class="mb-0">{{project.1}}</h6>
                         </div>
                       </div>
                     </td>
-                    <td>
-                      <div class="avatar-group mt-2">
+                    <td class="align-middle text-center ">
+                      <p class="font-weight-bold mb-0">{{project.2|default_if_none:"0"}}</p>
+                    </td>
+                    <td class="align-middle text-center ">
+                      <h6 class="mb-0 ">{{project.3|default_if_none:"0"}}</h6>
+                    </td>
 
-                      </div>
-                    </td>
-                    <td class="align-middle text-center text-sm">
-                      <span class="text-xs font-weight-bold"> $14,000 </span>
-                    </td>
-                    <td class="align-middle">
-                      <div class="progress-wrapper w-75 mx-auto">
-                        <div class="progress-info">
-                          <div class="progress-percentage">
-                            <span class="text-xs font-weight-bold">60%</span>
-                          </div>
-                        </div>
-                        <div class="progress">
-                          <div class="progress-bar bg-gradient-info w-60" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                      </div>
+                    <td class="align-middle text-center">
+                      <a href="javascript:;" class="btn btn-secondary btn-sm text-xs" >
+                        Edit
+                      </a>
+                      <a href="javascript:;" class="btn btn-danger btn-sm text-xs" >
+                        Delete
+                      </a>
                     </td>
                   </tr>
-
+                  {% endfor %}
+                  {% else %}
+                  <tr>
+                    <td colspan="4" class="align-middle">
+                      <h6 class="text-primary mb-0  text-center p-3">No data to show !</h6>
+                    </td>
+                  </tr>
+                  {% endif %}
                 </tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
-
     </div>
+
 
   </div>
 

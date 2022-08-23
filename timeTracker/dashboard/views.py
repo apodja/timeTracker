@@ -1,4 +1,3 @@
-
 from django.shortcuts import render
 from data.models import Entry
 from django.utils import timezone
