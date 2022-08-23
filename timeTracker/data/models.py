@@ -18,7 +18,7 @@ class Project(models.Model):
 
 class Task(models.Model):
     title = title = models.CharField(max_length=255)
-    assigned_users = models.ManyToManyField(User, related_name="tasks")
+    assigned_users = models.ManyToManyField(User, related_name="tasks", blank=True)
     project = models.ForeignKey(Project,related_name='tasks', on_delete=models.CASCADE)
     status = models.CharField(choices=STATUS,default="TODO",  max_length=15)
     created_at = models.DateTimeField(auto_now_add=True)
