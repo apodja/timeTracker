@@ -41,5 +41,6 @@ def dashboard(request):
     return render(request, 'dashboard/pages/index.html', context)
 
 
+@login_required
 def timer(request):
     return render(request,'dashboard/pages/timer.html')

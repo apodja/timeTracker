@@ -1,7 +1,8 @@
 import datetime
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from data.models import *
 from django.db import connection
+from django.http import HttpResponse, JsonResponse
 
 def index(request):
     cursor = connection.cursor()
@@ -16,12 +17,46 @@ def index(request):
     return render(request, 'projects/index.html', context = {'projects' : objects} )
 
 def project(request,pk):
+    project = Project.objects.get(id=pk)
     todos = Task.objects.filter(project_id = pk , status = "TODO").order_by('-created_at')
     ongoing = Task.objects.filter(project_id = pk , status = "ONGOING").order_by('-created_at')
     done = Task.objects.filter(project_id = pk , status = "DONE").order_by('-created_at')
     context = {
         'todos' : todos ,
         'ongoing' : ongoing , 
-        'done' : done
+        'done' : done,
+        'project' : project
     }
     return render(request , 'projects/project.html', context)
+
+
+def add_task(request):
+    if request.method == 'POST' : 
+        project_id = request.POST.get('project_id')
+        task_desc = request.POST.get('title')
+        if task_desc != "" and project_id is not None:
+            project = Project.objects.get(id = project_id)
+            task = Task.objects.create(project = project , title = task_desc)
+            task.save()
+            return redirect('project', pk = project_id)
+        else:
+            return HttpResponse('Error ...')    
+    else:
+        return HttpResponse('Error ...')
+
+
+def delete_task(request,project_id,task_id):
+    try : 
+        # project = Project.objects.get(id = project_id)
+        task = Task.objects.get(id = task_id)
+        task.delete()
+        return redirect('project', pk = project_id)
+    except:
+        return HttpResponse('Error')
+
+    
+
+
+
+
+

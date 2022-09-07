@@ -27,42 +27,49 @@
               </div>
             </div>
             <div id="collapseOne" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-headingOne">
-
-              <div class="row">
-                <div class="col-md-9">
+              <form id="addtask" method="POST" action="{% url 'add_task' %}">
+              <div class="row mt-2">
+                <div class="col-md-10">
                   <div class="input-group input-group-outline">
-                    <input type="text" class="form-control " id="title" name="title">
+                    {% csrf_token %}
+                    <input type="hidden" name="project_id" value="{{project.id}}">
+                    <input type="text" class="form-control " id="title" name="title" required>
                   </div>
                 </div>
-                <div class="col-md-3" style="margin:auto;">
-                  <a><i class="material-icons opacity-10" style="font-size:35px;">arrow_circle_right</i></a>
+                <div class="col-md-2" style="margin:auto;">
+                  <a id="tasksubmit" href="javascript:{}"><i class="material-icons opacity-10" style="font-size:35px;">arrow_circle_right</i></a>
                 </div>
-
               </div>
               </div>
-
+            </form>
             </div>
           <div class="card-body p-3 pb-0">
             <ul class="list-group">
-                {% if todos %}
+                  {% if todos %}
                     {% for todo in todos  %}
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex flex-column">
+                      <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                          <div class="d-flex flex-column">
                             <h6 class="mb-1 text-dark font-weight-bold text-sm">{{todo.title}}</h6>
                             <span class="text-xs">{{todo.created_at|date:'Y-m-d'}}</span>
-                            </div>
-                            <div class="d-flex align-items-center text-sm">
-                            <h4 class="text-dark text-sm mb-0 px-0 ms-4">{{request.user.Name|default_if_none:""}} </h4>
-                            </div>
-                        </li>
+                          </div>
+                          <div class="d-flex align-items-center text-sm">
+                            <h4 class="text-dark text-sm mb-0 px-0 ms-4">{{request.user.name|default_if_none:""}} </h4>
+                          </div>
+                          <div class="d-flex align-items-center text-sm">
+                            <a href="{% url 'delete_task' project.id todo.id %}"><i class="material-icons opacity-10">delete</i> </a>
+                          </div>
+                          <div class="d-flex align-items-center text-sm">
+                            <a href="#"><i class="material-icons opacity-10">play_circle</i> </a>
+                          </div>
+                      </li>
                     {% endfor %}
-                {% else %}
+                  {% else %}
                     <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                        <div class="d-flex flex-column">
-                            <h6 class="mb-1 font-weight-bold text-sm text-primary">Nobody is working right now ....</h6>
-                        </div>
+                      <div class="d-flex flex-column">
+                        <h6 class="mb-1 font-weight-bold text-sm text-primary">Nobody is working right now ....</h6>
+                      </div>
                     </li> 
-                {% endif %}
+                  {% endif %}
             </ul>
           </div>
         </div>
@@ -141,3 +148,17 @@
 
   </div>
 {% endblock %}
+{% block extra_scripts %}
+  <script>
+    $(document).ready(function(){
+      $('#title').change(function(){
+        if(!$(this).val() == '')
+        {
+          $('#tasksubmit').click(function(){
+            $('#addtask').submit();
+          });
+        }
+      });
+    });
+  </script>
+{% endblock extra_scripts %}
